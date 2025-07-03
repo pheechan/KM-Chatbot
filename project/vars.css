@@ -1,0 +1,31 @@
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  --primary-blue: #003058;
+  --primary-dark: #181516;
+  --gray-light: #767676;
+  --gray-medium: #c6c6c6;
+  --background-light: #f8f8f8;
+  --white: #ffffff;
+  
+  /* Fonts */
+  --font-primary: "Roboto", sans-serif;
+  --font-secondary: "Anuphan", sans-serif;
+  
+  /* Spacing */
+  --var-sds-size-space-200: 8px;
+  --var-sds-size-space-300: 12px;
+  --var-sds-size-space-400: 16px;
+  --var-sds-size-space-600: 24px;
+  
+  /* Radius */
+  --var-sds-size-radius-200: 8px;
+  
+  /* Typography */
+  --var-sds-typography-body-size-medium: 16px;
+  
+  /* Effects */
+  --shadow-card: 0px 3px 10px 0px rgba(0, 0, 0, 0.16);
+  --shadow-header: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+/* Figma Color Variables of your File */
