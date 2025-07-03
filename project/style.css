@@ -689,7 +689,7 @@
   padding: 50px 18px 12px 18px;
   background: linear-gradient(135deg, #f8f8f8 70%, #eaf2fa 100%);
   font-family: var(--font-primary);
-  font-size: 25px;
+  font-size: 15px;
   scrollbar-width: thin;
   scrollbar-color: var(--primary-blue) #eaf2fa;
   display: flex;
