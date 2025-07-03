@@ -162,3 +162,31 @@ function loadTheme() {
 
 // Initialize theme on load
 loadTheme();
+
+// --- Chatbot UI logic ---
+document.addEventListener('DOMContentLoaded', function() {
+    // Chatbot UI logic
+    const chatbotForm = document.getElementById('chatbotForm');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    if (chatbotForm && chatbotInput && chatbotMessages) {
+        chatbotForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const msg = chatbotInput.value.trim();
+            if (msg) {
+                appendChatbotMessage(msg, 'user');
+                chatbotInput.value = '';
+                setTimeout(() => {
+                    appendChatbotMessage('This is a sample bot reply.', 'bot');
+                }, 600);
+            }
+        });
+    }
+    function appendChatbotMessage(text, sender) {
+        const div = document.createElement('div');
+        div.className = 'chatbot-message' + (sender === 'user' ? ' user' : '');
+        div.textContent = text;
+        chatbotMessages.appendChild(div);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+});
