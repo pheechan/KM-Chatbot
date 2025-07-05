@@ -190,3 +190,106 @@ document.addEventListener('DOMContentLoaded', function() {
         chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
     }
 });
+
+
+
+// document.getElementById("chatbotForm").addEventListener("submit", async function (e) {
+//   e.preventDefault(); // ❌ ป้องกันการ reload หน้าเว็บเวลา submit form
+
+//   const inputEl = document.getElementById("chatbotInput"); // input ช่องพิมพ์ข้อความ
+//   const chatBox = document.getElementById("chatbotMessages"); // กล่องที่แสดงข้อความทั้งหมด
+//   const userMessage = inputEl.value.trim(); // ตัดช่องว่างจากข้อความที่พิมพ์
+//   if (!userMessage) return; // ถ้าไม่ได้พิมพ์อะไร → ไม่ทำอะไรเลย
+
+//   // แสดงข้อความของผู้ใช้
+//   const userBubble = document.createElement("div");
+//   userBubble.className = "chatbot-message user"; // class นี้ทำให้เป็นบับเบิลสีเข้ม ชิดขวา
+//   userBubble.innerText = userMessage;
+//   chatBox.appendChild(userBubble);
+//   inputEl.value = ""; // เคลียร์ input ให้ว่าง
+
+//   try {
+//     //  ส่งข้อความไปยัง Azure AI Agent
+//     const res = await fetch("https://kmagents.cognitiveservices.azure.com/openai/deployments/gpt-4o/chat/completions?api-version=2025-01-01-preview", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "api-key": "9y8OHWBvep4TGoNp4DlNPBAOyG8YnaB9IiEZ3WVyq0eJhKb8nfQ0JQQJ99BFACYeBjFXJ3w3AAAAACOGEM04" // ห้ามเปิดเผยใน production จริง
+//       },
+//       body: JSON.stringify({
+//         messages: [
+//           { role: "system", content: "You are a helpful assistant." }, // บอทเริ่มต้นด้วยบทบาทนี้
+//           { role: "user", content: userMessage } // ส่งข้อความของผู้ใช้
+//         ],
+//         temperature: 0.7
+//       })
+//     });
+
+//     const data = await res.json(); // แปลงคำตอบจาก JSON เป็น object
+//     const aiMessage = data.choices?.[0]?.message?.content || "⚠️ No response"; // ถ้าไม่มีคำตอบ ให้แสดง error
+
+//     //  แสดงข้อความจากบอทในกล่องฟ้าอ่อน
+//     const botBubble = document.createElement("div");
+//     botBubble.className = "chatbot-message"; // ไม่มี .user = ฟ้าอ่อน ชิดซ้าย
+//     botBubble.innerText = aiMessage;
+//     chatBox.appendChild(botBubble);
+
+//   } catch (err) {
+//     console.error(err); // log ข้อผิดพลาดใน console (dev tools)
+
+//     //  ถ้ามี error ให้แสดงข้อความแจ้งเตือนในกล่องบอท
+//     const botBubble = document.createElement("div");
+//     botBubble.className = "chatbot-message";
+//     botBubble.innerText = "❌ ไม่สามารถเชื่อมต่อ AI Agent ได้";
+//     chatBox.appendChild(botBubble);
+//   }
+// });
+
+
+
+document.getElementById("chatbotForm").addEventListener("submit", async function (e) {
+  e.preventDefault(); // ป้องกันการ reload หน้าเว็บตอนกด Enter
+
+  const inputEl = document.getElementById("chatbotInput");
+  const chatBox = document.getElementById("chatbotMessages");
+  const userMessage = inputEl.value.trim();
+  if (!userMessage) return;
+
+  // ✅ แสดงข้อความผู้ใช้ในกล่องสนทนา
+  const userBubble = document.createElement("div");
+  userBubble.className = "chatbot-message user";
+  userBubble.innerText = userMessage;
+  chatBox.appendChild(userBubble);
+  inputEl.value = "";
+
+  try {
+    // ✅ เรียก backend API ที่เชื่อม Azure Agent
+    const res = await fetch("http://localhost:3000/api/ask", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: userMessage })
+    });
+
+    const data = await res.json();
+    const aiMessage = data.reply || "⚠️ Agent didn't return a response";
+
+    // ✅ แสดงข้อความจาก AI Bot
+    const botBubble = document.createElement("div");
+    botBubble.className = "chatbot-message";
+    botBubble.innerText = aiMessage;
+    chatBox.appendChild(botBubble);
+
+  } catch (err) {
+    console.error("❌ Agent fetch error:", err);
+
+    const botBubble = document.createElement("div");
+    botBubble.className = "chatbot-message";
+    botBubble.innerText = "❌ ไม่สามารถเชื่อมต่อกับ AI Agent ได้";
+    chatBox.appendChild(botBubble);
+  }
+
+  // ✅ Scroll ลงล่างสุดอัตโนมัติ
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
