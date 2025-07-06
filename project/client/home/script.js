@@ -192,6 +192,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+//❤️ directly connect to Azure openAI using fetch API
+
 
 // document.getElementById("chatbotForm").addEventListener("submit", async function (e) {
 //   e.preventDefault(); // ❌ ป้องกันการ reload หน้าเว็บเวลา submit form
@@ -244,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
 //     chatBox.appendChild(botBubble);
 //   }
 // });
+
 
 
 
