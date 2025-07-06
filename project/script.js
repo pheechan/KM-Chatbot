@@ -247,6 +247,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+//👍🏻body ของ azure foundry not body openai but not have true apikey and endpoint 
+
 document.getElementById("chatbotForm").addEventListener("submit", async function (e) {
   e.preventDefault(); // ป้องกันการ reload หน้าเว็บตอนกด Enter
 
