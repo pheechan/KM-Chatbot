@@ -3,7 +3,7 @@
 <head>
     <script>
     console.log("📦 DOM loaded → checking login status...");
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     console.log("🔍 isLoggedIn =", isLoggedIn);
 
     if (isLoggedIn !== "true") {

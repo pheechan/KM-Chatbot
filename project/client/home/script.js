@@ -253,14 +253,14 @@ document.addEventListener('DOMContentLoaded', function() {
 //👍🏻body ของ azure foundry not body openai but not have true apikey and endpoint 
 
 document.getElementById("chatbotForm").addEventListener("submit", async function (e) {
-  e.preventDefault(); // ป้องกันการ reload หน้าเว็บตอนกด Enter
+  e.preventDefault();
 
   const inputEl = document.getElementById("chatbotInput");
   const chatBox = document.getElementById("chatbotMessages");
   const userMessage = inputEl.value.trim();
   if (!userMessage) return;
 
-  // ✅ แสดงข้อความผู้ใช้ในกล่องสนทนา
+  // แสดงข้อความผู้ใช้
   const userBubble = document.createElement("div");
   userBubble.className = "chatbot-message user";
   userBubble.innerText = userMessage;
@@ -268,33 +268,25 @@ document.getElementById("chatbotForm").addEventListener("submit", async function
   inputEl.value = "";
 
   try {
-    // ✅ เรียก backend API ที่เชื่อม Azure Agent
+    // 🔥 ส่งข้อความไปยัง backend
     const res = await fetch("http://localhost:3000/api/ask", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message: userMessage })
     });
 
     const data = await res.json();
-    const aiMessage = data.reply || "⚠️ Agent didn't return a response";
+    const aiMessage = data.reply || "⚠️ ไม่มีคำตอบจาก Agent";
 
-    // ✅ แสดงข้อความจาก AI Bot
     const botBubble = document.createElement("div");
     botBubble.className = "chatbot-message";
     botBubble.innerText = aiMessage;
     chatBox.appendChild(botBubble);
-
   } catch (err) {
-    console.error("❌ Agent fetch error:", err);
-
-    const botBubble = document.createElement("div");
-    botBubble.className = "chatbot-message";
-    botBubble.innerText = "❌ ไม่สามารถเชื่อมต่อกับ AI Agent ได้";
-    chatBox.appendChild(botBubble);
+    const errorBubble = document.createElement("div");
+    errorBubble.className = "chatbot-message";
+    errorBubble.innerText = "❌ ไม่สามารถเชื่อมต่อกับ AI Agent ได้";
+    chatBox.appendChild(errorBubble);
+    console.error(err);
   }
-
-  // ✅ Scroll ลงล่างสุดอัตโนมัติ
-  chatBox.scrollTop = chatBox.scrollHeight;
 });
