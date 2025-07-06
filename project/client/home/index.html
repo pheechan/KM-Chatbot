@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+    console.log("📦 DOM loaded → checking login status...");
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    console.log("🔍 isLoggedIn =", isLoggedIn);
+
+    if (isLoggedIn !== "true") {
+      console.log("❌ Not logged in → redirecting...");
+      window.location.href = "../loginpage/login.html";
+    } else {
+      console.log("✅ Already logged in");
+    }
+    </script>
+
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
